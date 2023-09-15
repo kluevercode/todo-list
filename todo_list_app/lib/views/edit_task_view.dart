@@ -75,7 +75,7 @@ class EditTaskView extends ConsumerWidget {
                 title: Text('Is done?'),
                 value: isDone,
                 onChanged: (newValue) {
-                  isDone = newValue!;
+                  viewModel.toggleIsDone(task);
                 },
               ),
               ElevatedButton(

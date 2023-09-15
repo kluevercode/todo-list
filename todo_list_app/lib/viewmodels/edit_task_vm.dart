@@ -10,6 +10,11 @@ class EditTaskViewModel extends ChangeNotifier {
 
   EditTaskViewModel({required this.apiService, required this.ref});
 
+  void toggleIsDone(Task task) {
+    task.isDone = !task.isDone;
+    notifyListeners();
+  }
+
   Future<void> updateTask(Task task) async {
     try {
       await apiService.updateTask(task);
