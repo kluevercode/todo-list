@@ -5,11 +5,49 @@ class TaskItemWidget extends StatelessWidget {
   final Task task;
   final Function(int) toggleStatus;
   final Function(int) deleteTask;
+  final Function onTap;
 
   TaskItemWidget(
       {required this.task,
       required this.toggleStatus,
-      required this.deleteTask});
+      required this.deleteTask,
+      required this.onTap});
+
+  Future<bool> _showDeleteConsentDialog(BuildContext context) async {
+    return await showDialog<bool>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Confirm Delete'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Do you really want to delete this task?'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(false); // User clicked Cancel button
+                  },
+                ),
+                TextButton(
+                  child: Text('Delete'),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pop(true); // User clicked Delete button
+                  },
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // In case the dialog is dismissed with no selection, default to false
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +71,7 @@ class TaskItemWidget extends StatelessWidget {
 
     return ListTile(
       title: Text(task.title),
+      onTap: () => onTap(),
       subtitle: Text(task.description),
       leading: Checkbox(
         value: task.isDone,
@@ -54,8 +93,11 @@ class TaskItemWidget extends StatelessWidget {
                   8.0), // Give some space between the icon and the delete button
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {
-              deleteTask(task.id);
+            onPressed: () async {
+              bool shouldDelete = await _showDeleteConsentDialog(context);
+              if (shouldDelete) {
+                deleteTask(task.id);
+              }
             },
           ),
         ],

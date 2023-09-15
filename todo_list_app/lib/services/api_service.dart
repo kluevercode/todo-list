@@ -2,8 +2,6 @@ import '../models/task.dart';
 import 'package:dio/dio.dart';
 
 class ApiService {
-  List<Task> _taskList = [];
-
   Future<List<Task>> fetchTasks() async {
     Dio dio = Dio();
 
@@ -23,26 +21,77 @@ class ApiService {
     }
   }
 
-  Future<Task?> addTask(Task task) async {
-    await Future.delayed(Duration(seconds: 1));
-    _taskList.add(task);
-    return task;
+  Future addTask(Task task) async {
+    Dio dio = Dio();
+    final url = 'http://localhost:5137/Task';
+    try {
+      Response response = await dio.post(
+        url,
+        data: {
+          'title': task.title,
+          'description': task.description,
+          'priority': task.priority,
+        },
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        print('Failed to add task with status: ${response.statusCode}');
+        throw Exception('Failed to add task');
+      }
+    } catch (error) {
+      print('An error occurred while adding task: $error');
+      throw Exception('Failed to add task due to an error: $error');
+    }
   }
 
   Future<Task?> updateTask(Task task) async {
-    await Future.delayed(Duration(seconds: 1));
-    var index = _taskList.indexWhere((t) => t.id == task.id);
-    if (index != -1) {
-      _taskList[index] = task;
-      return task;
+    Dio dio = Dio();
+    final url = 'http://localhost:5137/Task';
+    try {
+      Response response = await dio.put(
+        url,
+        data: {
+          'id': task.id,
+          'title': task.title,
+          'description': task.description,
+          'priority': task.priority,
+          'isDone': task.isDone,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        print('Failed to update task with status: ${response.statusCode}');
+        throw Exception('Failed to update task');
+      }
+    } catch (error) {
+      print('An error occurred while updating task: $error');
+      throw Exception('Failed to update task due to an error: $error');
     }
-    return null;
   }
 
-  Future<bool> deleteTask(int id) async {
-    await Future.delayed(Duration(seconds: 1));
-    var initialLength = _taskList.length;
-    _taskList.removeWhere((t) => t.id == id);
-    return _taskList.length != initialLength;
+  Future deleteTask(int id) async {
+    Dio dio = Dio();
+    final url = 'http://localhost:5137/Task';
+    final Map<String, dynamic> queryParams = {
+      'id': id,
+    };
+
+    try {
+      Response response = await dio.delete(
+        url,
+        queryParameters: queryParams,
+        data: {
+          'id': id,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        print('Failed to delete task with status: ${response.statusCode}');
+        throw Exception('Failed to delete task');
+      }
+    } catch (error) {
+      print('An error occurred while deleting task: $error');
+      throw Exception('Failed to delete task due to an error: $error');
+    }
   }
 }
