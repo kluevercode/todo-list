@@ -20,12 +20,13 @@ namespace TodoList.Api.Services
         public async Task<IEnumerable<TaskListDto>> GetTasks()
         {
             var tasks = await _repository.GetAsync(null, null);
-            return tasks.Select(t => new TaskListDto(t.Id, t.Title, t.Description, (int)t.Priority));
+            return tasks.Select(t => new TaskListDto(t.Id, t.Title, t.Description, (int)t.Priority, t.IsDone));
+
         }
 
         public async Task<long> CreateTask(TaskCreateDto taskCreateDto)
         {
-            if(string.IsNullOrEmpty(taskCreateDto.Title))
+            if (string.IsNullOrEmpty(taskCreateDto.Title))
             {
                 throw new BadHttpRequestException("The title is mandatory.");
             }
@@ -69,6 +70,7 @@ namespace TodoList.Api.Services
             taskToUpdate.Title = taskUpdateDto.Title;
             taskToUpdate.Description = taskUpdateDto.Description;
             taskToUpdate.Priority = (TaskPriority)taskUpdateDto.Priority;
+            taskToUpdate.IsDone = taskUpdateDto.IsDone;
 
             _repository.Update(taskToUpdate);
             await _repository.SaveChangesAsync();

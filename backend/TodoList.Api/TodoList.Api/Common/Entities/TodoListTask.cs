@@ -9,4 +9,5 @@ public class TodoListTask : BaseEntity
     public string Description { get; set; }
     public TaskPriority Priority { get; set; }
     public User User { get; set; }
+    public bool IsDone { get; set; }
 }
