@@ -1,3 +1,4 @@
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Mvc;
 using TodoList.Api.Common.Dtos;
 using TodoList.Api.Services;
@@ -20,13 +21,13 @@ namespace TodoList.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<TaskListDto>> Get()
         {
-            return await _taskService.GetTasks();
+            return await _taskService.GetTasks((string)HttpContext.Items["UserId"]);
         }
 
         [HttpPost]
         public async Task<long> Post(TaskCreateDto taskCreateDto)
         {
-            return await _taskService.CreateTask(taskCreateDto);
+            return await _taskService.CreateTask(taskCreateDto, (string)HttpContext.Items["UserId"]);
         }
 
         [HttpPut]

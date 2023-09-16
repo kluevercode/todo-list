@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // If using Riverpod
+import 'package:todo_list_app/views/login_view.dart';
 import 'views/task_list_view.dart'; // Replace with the correct path to your file
 
-void main() {
-  print(' fetch');
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -36,7 +39,7 @@ class MyApp extends ConsumerWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      home: TaskListView(),
+      home: LoginView(),
     );
   }
 }

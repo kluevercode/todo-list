@@ -1,4 +1,5 @@
-﻿using TodoList.Api.Common.Dtos;
+﻿using System.Linq.Expressions;
+using TodoList.Api.Common.Dtos;
 using TodoList.Api.Common.Entities;
 using TodoList.Api.Common.Enums;
 using TodoList.Api.Common.Interfaces;
@@ -8,23 +9,19 @@ namespace TodoList.Api.Services
     public class TaskService
     {
         private readonly IGenericRepository<TodoListTask> _repository;
-        private readonly IUserService _userService;
 
-        public TaskService(IGenericRepository<TodoListTask> repository,
-            IUserService userService)
+        public TaskService(IGenericRepository<TodoListTask> repository)
         {
             _repository = repository;
-            _userService = userService;
         }
 
-        public async Task<IEnumerable<TaskListDto>> GetTasks()
+        public async Task<IEnumerable<TaskListDto>> GetTasks(string user)
         {
-            var tasks = await _repository.GetAsync(null, null);
+            var tasks = await _repository.GetFilteredAsync(new Expression<Func<TodoListTask, bool>>[] { (TodoListTask t) => t.User == user }, null, null);
             return tasks.Select(t => new TaskListDto(t.Id, t.Title, t.Description, (int)t.Priority, t.IsDone));
-
         }
 
-        public async Task<long> CreateTask(TaskCreateDto taskCreateDto)
+        public async Task<long> CreateTask(TaskCreateDto taskCreateDto, string user)
         {
             if (string.IsNullOrEmpty(taskCreateDto.Title))
             {
@@ -39,14 +36,13 @@ namespace TodoList.Api.Services
                 throw new BadHttpRequestException("The priority has to be a number between 1 and 3");
             }
 
-            var loggedInUser = await _userService.GetLoggedInUser();
-
             var task = new TodoListTask
             {
                 Title = taskCreateDto.Title,
                 Description = taskCreateDto.Description,
                 Priority = (TaskPriority)taskCreateDto.Priority,
-                User = loggedInUser
+                User = user,
+                IsDone = taskCreateDto.IsDone
             };
 
             await _repository.InsertAsync(task);

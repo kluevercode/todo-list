@@ -5,7 +5,6 @@ namespace TodoList.Api.Infrastructure;
 
 public class TodoListDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
     public DbSet<TodoListTask> Todos { get; set; }
 
     public TodoListDbContext(DbContextOptions<TodoListDbContext> options)
@@ -22,9 +21,6 @@ public class TodoListDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<TodoListTask>().HasKey(e => e.Id);
-        builder.Entity<User>().HasKey(e => e.Id);
-        builder.Entity<User>().HasMany(e => e.Todos).WithOne(e => e.User);
-
         base.OnModelCreating(builder);
     }
 }
