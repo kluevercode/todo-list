@@ -22,10 +22,7 @@ class EditTaskViewModel extends ChangeNotifier {
       await taskListVM.fetchTasks();
       notifyListeners();
     } catch (error) {
-      // Handle errors, for example by setting an error state
       throw Exception('Failed to update the task: $error');
     }
   }
 }
-
-// Don't forget to provide this ViewModel in the widget tree similar to the Add Task ViewModel.

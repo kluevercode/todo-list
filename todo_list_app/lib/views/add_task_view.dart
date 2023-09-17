@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_list_app/viewmodels/task_list_vm.dart';
 import '../models/task.dart';
 import '../viewmodels/add_task_vm.dart';
 
@@ -16,7 +15,7 @@ class AddTaskView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Task'),
+        title: const Text('Add Task'),
       ),
       body: Form(
         key: _formKey,
@@ -61,7 +60,7 @@ class AddTaskView extends ConsumerWidget {
                     _formKey.currentState!.save();
 
                     final newTask = Task(
-                      id: 0, // You can use a random generator or get the ID from the server after creation
+                      id: 0,
                       title: title,
                       description: description,
                       priority: priority,

@@ -27,7 +27,7 @@ class TaskListViewModel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (error) {
-      // Handle errors, for example by setting an error state
+      print(error);
       isLoading = false;
       notifyListeners();
     }

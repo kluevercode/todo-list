@@ -46,7 +46,7 @@ class TaskItemWidget extends StatelessWidget {
             );
           },
         ) ??
-        false; // In case the dialog is dismissed with no selection, default to false
+        false;
   }
 
   @override
@@ -57,15 +57,15 @@ class TaskItemWidget extends StatelessWidget {
     switch (task.priority) {
       case 1:
         priorityColor = Colors.red;
-        priorityIcon = Icons.priority_high; // Example icon for high priority
+        priorityIcon = Icons.priority_high;
         break;
       case 2:
         priorityColor = Colors.green;
-        priorityIcon = Icons.circle; // Example icon for medium priority
+        priorityIcon = Icons.circle;
         break;
       case 3:
         priorityColor = Colors.grey;
-        priorityIcon = Icons.circle; // Example icon for low priority
+        priorityIcon = Icons.circle;
         break;
     }
 

@@ -31,7 +31,7 @@ class EditTaskView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Task'),
+        title: const Text('Edit Task'),
       ),
       body: Form(
         key: _formKey,

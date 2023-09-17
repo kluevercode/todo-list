@@ -14,7 +14,6 @@ class LoginView extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // show loader while checking
         }
-        //Demo login start
         if (snapshot.hasData && snapshot.data != null) {
           // Navigate to TaskListView if user is already authenticated
           WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -25,8 +24,7 @@ class LoginView extends StatelessWidget {
           });
           return SizedBox.shrink(); // returning an empty widget
         }
-        //Demo login end
-        return buildLoginUI(context); // your original login UI
+        return buildLoginUI(context);
       },
     );
   }
