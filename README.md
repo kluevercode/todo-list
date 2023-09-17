@@ -25,3 +25,4 @@ The Frontend implements the MVVM pattern and utilizes Riverpod for state managem
 ## Remarks
 - Since the Backend is really small, it arguably didn't make sense to add Automapper or FluentValidation
 - The Authorization is done in a Middleware
+- In Flutter the production code lives in the lib folder
