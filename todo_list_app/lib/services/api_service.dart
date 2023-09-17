@@ -4,13 +4,15 @@ import '../models/task.dart';
 import 'package:dio/dio.dart';
 
 class ApiService {
+  final String baseUrl = 'http://localhost:5137';
+
   Future<List<Task>> fetchTasks() async {
     final token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
     Dio dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $token';
 
     try {
-      Response response = await dio.get('http://localhost:5137/Task');
+      Response response = await dio.get('$baseUrl/Task');
 
       if (response.statusCode == 200) {
         List<dynamic> responseBody = response.data;
@@ -29,7 +31,7 @@ class ApiService {
     final token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
     Dio dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $token';
-    final url = 'http://localhost:5137/Task';
+    final url = '$baseUrl/Task';
     try {
       Response response = await dio.post(
         url,
@@ -54,7 +56,7 @@ class ApiService {
     final token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
     Dio dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $token';
-    final url = 'http://localhost:5137/Task';
+    final url = '$baseUrl/Task';
     try {
       Response response = await dio.put(
         url,
@@ -81,7 +83,7 @@ class ApiService {
     final token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
     Dio dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $token';
-    final url = 'http://localhost:5137/Task';
+    final url = '$baseUrl/Task';
     final Map<String, dynamic> queryParams = {
       'id': id,
     };
