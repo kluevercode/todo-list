@@ -23,7 +23,6 @@ class AddTaskViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print('Error occurred while adding task: $error');
-      // You can also use a mechanism to show the error to the user
       throw Exception('Failed to add task');
     }
   }
