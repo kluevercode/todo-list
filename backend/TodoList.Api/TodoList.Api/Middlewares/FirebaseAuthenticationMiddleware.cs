@@ -25,8 +25,7 @@ public class FirebaseAuthenticationMiddleware
         {
             var decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(firebaseToken);
             var uid = decodedToken.Uid;
-            // Store the UID or other claims as needed for further processing in your application.
-            context.Items["UserId"] = uid; // for instance
+            context.Items["UserId"] = uid;
         }
         catch (FirebaseAuthException)
         {
